@@ -1,0 +1,42 @@
+<div class='container'>
+<div class='panel'>
+  <div class='panel-heading text-center'>
+    <h1>EVENTS</h1>
+  </div>
+</div>
+<div class='col-md-4 col-md-offset-4'>
+<% @events.each do |e| %>
+  <div class='thumbnail' id="tb-<%= e.id %>">
+    <div class='caption cap-top'>
+      <h2><%= e.title %></h2>
+      <p style='color: white; font-weight: 100; font-size: 136px'><%= e.time.strftime('%d') %></p>
+    </div>
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+      <div class='panel'>
+        <div class='panel-heading' id='headingOne'>
+          <h5>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+            DETAILS
+            </a>
+          </h5>
+        </div>
+        <div id="collapseOne" class="panel-collapse collapse out" role="tabpanel" aria-labelledby="headingOne">
+      <div class="panel-body">
+        <p><%= "WHEN : #{e.time.strftime('%A, %d %b %l:%M %p')}" %></p>
+        <p><%= "WHERE : #{e.location}" %></p>
+        <p>DESCRIPTION :</p>
+        <p><%= e.description %></p>
+      </div>
+    </div>
+      </div>
+    </div>
+  </div>
+<% unless current_user %>
+  <%= link_to 'sign in with twitter', 'auth/twitter', class: 'btn btn-block btn-twitter' %>
+  <%= link_to 'sign in with github', 'auth/github', class: 'btn btn-block btn-github' %>
+<% else %>
+  <%= button_to 'RSVP', add_attendee_event_path(current_user, event_id: e.id), class: 'btn btn-block btn-rsvp' %>
+<% end %>
+<% end %>
+</div>
+</div>
